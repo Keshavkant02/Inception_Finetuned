@@ -11,7 +11,7 @@
 4.  [Methodology](#methodology)
 5.  [Results and Analysis](#results-and-analysis)
 6.  [Setup and Installation](#setup-and-installation)
-7.  [How to Run the Script](#how-to-run-the-script)
+7.  [How to Run](#how-to-run)
 8.  [File Structure](#file-structure)
 9.  [Technologies Used](#technologies-used)
 
@@ -33,113 +33,68 @@ The primary objective of this project is to develop and evaluate a deep learning
 -   **Class Imbalance Mitigation:** Employs a weighted loss function (`nn.CrossEntropyLoss` with class weights) to force the model to pay equal attention to the minority "Normal" class during training.
 -   **Overfitting Prevention:** Utilizes a combination of **Data Augmentation** (random rotations, flips, and color jitter) and **Regularization** (Dropout layers and Weight Decay) to ensure the model generalizes well to unseen data.
 -   **Comprehensive Evaluation:** Goes beyond simple accuracy to report on **AUC-ROC, Precision, and Recall**, providing a clear picture of the model's clinical trade-offs.
--   **Reproducible "Sleep-Friendly" Script:** The main script is designed for unattended training sessions, with features like automatic checkpointing of the best model and detailed progress logging.
 
 ---
 
 ## Dataset
 
 This project utilizes the **PneumoniaMNIST** dataset, which is part of the MedMNIST v2 collection.
-
 -   **Source:** [MedMNIST Homepage](https://medmnist.com/)
--   **Description:** The dataset consists of 5,856 chest X-ray images, down-sampled to 28x28 pixels and standardized. The images are categorized into two classes:
-    1.  **Normal**
-    2.  **Pneumonia**
--   **Class Imbalance:** The training set exhibits a significant class imbalance, with **3,875 "Pneumonia" samples** and only **1,341 "Normal" samples**. This imbalance was a key challenge addressed in the project.
+-   **Description:** The dataset consists of 5,856 chest X-ray images, categorized into "Normal" and "Pneumonia".
+-   **Class Imbalance:** The training set exhibits a significant class imbalance, with a ratio of approximately 3:1 (Pneumonia to Normal), which was a key challenge addressed.
 
 ---
 
 ## Methodology
 
 The project follows a standard transfer learning pipeline:
-
-1.  **Data Preprocessing & Augmentation:** Input images are resized to the required `299x299` for Inception-V3. The training data undergoes on-the-fly augmentation to prevent overfitting. All images are converted to 3-channel tensors and normalized using ImageNet statistics.
-
-2.  **Model Architecture:** A pre-trained Inception-V3 model is loaded. All of its base layers are **frozen** to preserve the learned ImageNet features. The final fully connected layer (`fc`) is **replaced** with a new custom classifier head containing a Dropout layer for regularization. Only this new head is trained.
-
-3.  **Training Strategy:**
-    -   **Loss Function:** A weighted `CrossEntropyLoss` is used to counteract the dataset's class imbalance.
-    -   **Optimizer:** The Adam optimizer is used with weight decay (L2 regularization).
-    -   **Learning Rate Scheduler:** A `ReduceLROnPlateau` scheduler dynamically lowers the learning rate if the validation loss stops improving, helping the model find a better minimum.
+1.  **Data Preprocessing & Augmentation:** Input images are resized to `299x299` for Inception-V3 and normalized using ImageNet statistics. The training data undergoes on-the-fly augmentation.
+2.  **Model Architecture:** A pre-trained Inception-V3 model is loaded. Its base layers are frozen, and the final `fc` layer is replaced with a new custom classifier head that includes Dropout. Only this new head is trained.
+3.  **Training Strategy:** A weighted `CrossEntropyLoss` is used to counteract class imbalance, and the Adam optimizer with weight decay is used for training.
 
 ---
 
 ## Results and Analysis
 
-The model was trained for 10 epochs, and the best-performing version (based on validation loss) was evaluated on the held-out test set.
-
-### Quantitative Results
-
-The final performance on the test set is summarized below:
-
-| Metric          | Score           |
-|-----------------|-----------------|
-| **ROC AUC**     | **0.8889**      |
-| Accuracy        | 0.7997          |
-|                 |                 |
-| **Normal Class**|                 |
-| Precision       | 0.86            |
-| Recall          | 0.56            |
-| F1-Score        | 0.68            |
-|                 |                 |
-| **Pneumonia Class**|                |
-| Precision       | 0.78            |
-| **Recall**      | **0.94**        |
-| F1-Score        | 0.85            |
-
+The model was trained for 10 epochs. The final evaluation on the test set yielded an **ROC AUC score of 0.889** and a **Pneumonia class recall of 0.94**, indicating strong performance in identifying sick patients, though with a trade-off in false positives.
 
 ### Visual Results
 
-The training history and final evaluation metrics are visualized below. The plots show successful convergence without significant overfitting and highlight the model's final performance on the test set.
+The training history and final evaluation metrics are visualized below.
 
-![Training History and Final Results](final_results_plot.png)
-*Figure 1: (Left to Right) Training & Validation Loss, Training & Validation Accuracy, Confusion Matrix, and ROC Curve (AUC = 0.889).*
-
-### Analysis & Insights
-
--   The high **ROC AUC score of 0.89** indicates that the model has excellent discriminative ability, successfully learning to separate the two classes.
--   The key finding is the trade-off in recall. The model achieved an outstanding **Recall of 0.94 for the Pneumonia class**, meaning it successfully identified 94% of all sick patients. This is a highly desirable outcome for a diagnostic screening tool, as it minimizes dangerous false negatives.
--   This high sensitivity, however, came at the cost of a **lower Recall (0.56) for the Normal class**. This means the model has a tendency to be overcautious, flagging a significant number of healthy patients for follow-up (false positives). This is a classic precision-recall trade-off, and for a life-threatening illness, a bias towards higher recall is often preferred.
+![Training History and Final Results](results_plot.png)
+*Figure 1: (Left to Right) Training & Validation Loss, Training & Validation Accuracy, Confusion Matrix, and ROC Curve.*
 
 ---
 
 ## Setup and Installation
 
-To set up the environment and run this project, please follow these steps:
-
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/Keshavkant02/Inception_Finetuned.git
+    cd Inception_Finetuned
     ```
 
-2.  **Create a virtual environment (recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-3.  **Install the required dependencies:**
-    The `requirements.txt` file contains all necessary Python packages.
+2.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
 ---
 
-## How to Run the Script
+## How to Run
 
-The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignment.ipynb`).
-
-1.  After setting up the environment using `requirements.txt`, launch a Jupyter server or open the notebook in Google Colab.
-2.  Run the cells sequentially from top to bottom to execute the entire data loading, training, and evaluation pipeline.
+The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignment.ipynb`). After setting up the environment, the cells can be run sequentially from top to bottom in Google Colab or a local Jupyter environment.
 
 ---
+
 ## File Structure
-├── README.md # This documentation file
-├── Pneumonia_Assignment.ipynb # Main Jupyter Notebook with all code
-├── requirements.txt # Python dependencies to reproduce the environment
-└── final_results_plot.png # Image containing the final result plots
+
+*   `Pneumonia_Assignment.ipynb`: The main Jupyter Notebook containing all project code, analysis, and outputs.
+*   `README.md`: This documentation file.
+*   `requirements.txt`: A list of all Python dependencies required to reproduce the environment.
+*   `results_plot.png`: The image file containing the final result plots.
+
 ---
 
 ## Technologies Used
@@ -150,4 +105,4 @@ The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignme
 -   **scikit-learn:** For calculating evaluation metrics and class weights.
 -   **NumPy:** For numerical operations.
 -   **Matplotlib & Seaborn:** For data visualization and plotting results.
--   **Jupyter / Google Colab:** As the development environment.
+-   **Google Colab:** As the development environment.
