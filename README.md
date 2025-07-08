@@ -38,7 +38,6 @@ The primary objective of this project is to develop and evaluate a deep learning
 ---
 
 ## Dataset
-*(Describe the data you used. This provides essential context.)*
 
 This project utilizes the **PneumoniaMNIST** dataset, which is part of the MedMNIST v2 collection.
 
@@ -137,9 +136,8 @@ The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignme
 
 ---
 ## File Structure
-.
 ├── README.md # This documentation file
-├── Pneumonia_Assignment.ipynb # The main Jupyter Notebook with all code and analysis
+├── Pneumonia_Assignment.ipynb # Main Jupyter Notebook with all code
 ├── requirements.txt # Python dependencies to reproduce the environment
 └── final_results_plot.png # Image containing the final result plots
 ---
