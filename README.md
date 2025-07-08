@@ -62,9 +62,8 @@ The model was trained for 10 epochs. The final evaluation on the test set yielde
 
 The training history and final evaluation metrics are visualized below.
 
-![Training History and Final Results](results_plot.png)
+![Training History and Final Results](roc%20curve.png)
 *Figure 1: (Left to Right) Training & Validation Loss, Training & Validation Accuracy, Confusion Matrix, and ROC Curve.*
-
 ---
 
 ## Setup and Installation
@@ -93,7 +92,7 @@ The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignme
 *   `Pneumonia_Assignment.ipynb`: The main Jupyter Notebook containing all project code, analysis, and outputs.
 *   `README.md`: This documentation file.
 *   `requirements.txt`: A list of all Python dependencies required to reproduce the environment.
-*   `results_plot.png`: The image file containing the final result plots.
+*   `roc curve.png`: The image file containing the final result plots.
 
 ---
 
