@@ -105,3 +105,5 @@ The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignme
 -   **NumPy:** For numerical operations.
 -   **Matplotlib & Seaborn:** For data visualization and plotting results.
 -   **Google Colab:** As the development environment.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Keshavkant02/Inception_Finetuned/blob/main/PGI_Biostats_InceptionFinetuning.ipynb) 
