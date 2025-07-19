@@ -1,3 +1,4 @@
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Keshavkant02/Inception_Finetuned/blob/main/PGI_Biostats_InceptionFinetuning.ipynb)  
 # Pneumonia Detection from Chest X-Rays using Transfer Learning
 
 **A deep learning project to fine-tune an Inception-V3 model on the PneumoniaMNIST dataset for classifying chest X-rays as showing signs of pneumonia or being normal.**
@@ -106,4 +107,4 @@ The entire project is contained within the Jupyter Notebook (`Pneumonia_Assignme
 -   **Matplotlib & Seaborn:** For data visualization and plotting results.
 -   **Google Colab:** As the development environment.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Keshavkant02/Inception_Finetuned/blob/main/PGI_Biostats_InceptionFinetuning.ipynb) 
+
